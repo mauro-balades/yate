@@ -160,7 +160,7 @@ class IfStatement(_ScopableNode):
             exec_if_branch = op(lhs, rhs)
         else:
             exec_if_branch = operator.truth(lhs)
-        if_branch, else_branch = self.split_children()
+        self.if_branch, self.else_branch = self.split_children()
         return self.render_children(
             context, self.if_branch if exec_if_branch else self.else_branch
         )
