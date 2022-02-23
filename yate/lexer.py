@@ -38,8 +38,6 @@ from yate.nodes import (
 )
 
 from yate.tokens import (
-    BLOCK_COMMENT_END,
-    BLOCK_COMMENT_START,
     CLOSE_BLOCK_FRAGMENT,
     OPEN_BLOCK_FRAGMENT,
     TEXT_FRAGMENT,
@@ -93,11 +91,7 @@ class YateLexer:
     def each_fragment(self):
         for fragment in self.split():
             if fragment:
-                if not (
-                    fragment.startswith(BLOCK_COMMENT_START)
-                    and fragment.endswith(BLOCK_COMMENT_END)
-                ):
-                    yield Fragment(fragment)
+                yield Fragment(fragment)
 
     def create_node(self, fragment):
         node_class = None

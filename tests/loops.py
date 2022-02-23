@@ -9,6 +9,6 @@ template = YateTemplate(
     </ul>
 """
 )
-tmp = template.render(name="YATE")
+tmp = template.render()
 
 print(tmp)

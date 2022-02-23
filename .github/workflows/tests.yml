@@ -28,7 +28,5 @@ jobs:
     - run: python3 tests/loops6.py
     - run: python3 tests/loops7.py
     - run: python3 tests/variable.py
-    - run: python3 tests/comments.py
-    - run: python3 tests/comments2.py
     - run: python3 tests/if_statement.py
     - run: python3 tests/if_statement2.py

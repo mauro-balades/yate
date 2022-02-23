@@ -98,9 +98,6 @@ class YateTemplate:
     Dotted paths in names will resolve to nested dictionary attributes. Using ’..’ we
     can access names in the parent context.
 
-    Lastly, so that we can document our templates, comments appear between brace-hashes.
-        => `{# This is the best template ever! #}`
-
     Args:
         source [str | file]: String or file object ready to be compiled.
     """
