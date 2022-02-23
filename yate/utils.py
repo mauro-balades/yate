@@ -25,7 +25,7 @@
 """
 
 import ast
-from yate.errors import TemplateContextError
+from yate.errors import TemplateContextError, TemplateSyntaxError
 
 
 def resolve(name, context):
@@ -39,6 +39,35 @@ def resolve(name, context):
     except KeyError:
         raise TemplateContextError(name)
 
+def clean_loop(bits):
+
+    if bits[0].startswith("[") and bits[0].endswith("]"):
+        return bits
+
+    arr_open = False
+    as_exists = False
+
+    arr = ""
+    for i in bits:
+        if i == "as" and arr_open:
+            raise TemplateSyntaxError(''.join(bits))
+        elif i == "as":
+            as_exists = True
+            break
+
+        if i.startswith("["):
+            arr_open = True
+            arr += i
+        elif i.endswith("]"):
+            arr_open = False
+            arr += i
+        else:
+            arr += i
+
+    if as_exists:
+        return [arr, "as", bits[-1]]
+
+    return [arr]
 
 def eval_expression(expr):
     try:

@@ -2,8 +2,8 @@ from yate import YateTemplate
 
 template = YateTemplate("""
     <ul>
-        {% each list as i %}
-            <li>{{ i }}</li>
+        {% each [1,4125,52312," hello "] as x %}
+            <li>{{ x }}</li>
         {% end %}
     </ul>
 """)

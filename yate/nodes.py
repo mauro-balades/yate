@@ -26,7 +26,7 @@
 
 import operator
 from yate.errors import TemplateError, TemplateSyntaxError
-from yate.utils import eval_expression, resolve
+from yate.utils import clean_loop, eval_expression, resolve
 from yate.tokens import (
     operator_lookup_table,
     BLOCK_TOKEN_START,
@@ -113,8 +113,20 @@ class Loop(_ScopableNode):
     def process_fragment(self, fragment):
         try:
             _, it = WHITESPACE.split(fragment, 1)
-            print(fragment.split()[1:])
-            self.it = eval_expression(it)
+            self.it_name = "it"
+
+            bits = clean_loop(fragment.split()[1:])
+            if len(bits) > 1:
+                if bits[1] == "as":
+                    if len(bits) > 2:
+                        self.it_name = bits[2]
+
+                    else:
+                        raise TemplateSyntaxError(it)
+                else:
+                    raise TemplateSyntaxError(it)
+
+            self.it = eval_expression(bits[0])
         except ValueError:
             raise TemplateSyntaxError(fragment)
 
@@ -123,7 +135,7 @@ class Loop(_ScopableNode):
         items = self.it[1] if self.it[0] == "literal" else resolve(self.it[1], context)
 
         def render_item(item):
-            return self.render_children({"..": context, "it": item})
+            return self.render_children({"..": context, self.it_name: item})
 
         return "".join(map(render_item, items))
 
@@ -200,7 +212,7 @@ class Call(_Node):
             if kind == "name":
                 value = resolve(value, context)
             resolved_args.append(value)
-        for key, (kind, value) in self.kwargs.iteritems():
+        for key, (kind, value) in self.kwargs.items():
             if kind == "name":
                 value = resolve(value, context)
             resolved_kwargs[key] = value

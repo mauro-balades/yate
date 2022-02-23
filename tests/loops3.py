@@ -2,7 +2,7 @@ from yate import YateTemplate
 
 template = YateTemplate("""
     <ul>
-        {% each list as i %}
+        {% each [1,2,3,4] as i %}
             <li>{{ i }}</li>
         {% end %}
     </ul>
