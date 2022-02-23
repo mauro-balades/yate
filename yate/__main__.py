@@ -123,4 +123,4 @@ class YateTemplate:
 
     def render(self, *args, **kwargs):
         tree = self._lexer.tokenize()
-        tree.render(kwargs)
+        return tree.render(kwargs)

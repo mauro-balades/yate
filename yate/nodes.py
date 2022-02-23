@@ -113,11 +113,13 @@ class Loop(_ScopableNode):
     def process_fragment(self, fragment):
         try:
             _, it = WHITESPACE.split(fragment, 1)
+            print(fragment.split()[1:])
             self.it = eval_expression(it)
         except ValueError:
             raise TemplateSyntaxError(fragment)
 
     def render(self, context):
+
         items = self.it[1] if self.it[0] == "literal" else resolve(self.it[1], context)
 
         def render_item(item):
