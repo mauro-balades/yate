@@ -1,4 +1,3 @@
-
 """
 | YATE engine
 |-------------
@@ -25,7 +24,33 @@
 | SOFTWARE.
 """
 
-__name__ = "yate"
-__version__ = "1.0.0"
+from argparse import ArgumentError
+import re
 
-from yate.__main__ import YateTemplate
+from yate.tokens import TOK_REGEX
+
+
+class YateLexer:
+    """The lexer will parse the template
+    and separating the contents into fragments.
+
+    Each fragment can either be arbitrary HTML or a tag.
+
+    Args:
+        source [str]: The HTML template to be parsed.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.source = kwargs.get("source", None)
+
+        if self.source is None:
+            raise ArgumentError("Template source code not given in arguments")
+
+    def tokenize(self):
+        return TOK_REGEX.split(self.source)
+
+    def __str__(self):
+        return self.source
+
+    def __repr__(self):
+        return "<YateLexer src=\"%s\"" % self.source

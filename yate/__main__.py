@@ -24,7 +24,7 @@
 | SOFTWARE.
 """
 
-class Yate:
+class YateTemplate:
     """Yet another template engine. Yate is a small, fast html template engine.
 
     In this class, user will be able to access al of yate's functions such as

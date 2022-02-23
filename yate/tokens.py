@@ -1,4 +1,3 @@
-
 """
 | YATE engine
 |-------------
@@ -25,7 +24,28 @@
 | SOFTWARE.
 """
 
-__name__ = "yate"
-__version__ = "1.0.0"
+import re
 
-from yate.__main__ import YateTemplate
+# We will encapsulate each fragment of text in a Fragment object.
+# This object will determine the fragment type and prepare the
+# fragment for consumption by the compile function.
+VAR_FRAGMENT = 0
+OPEN_BLOCK_FRAGMENT = 1
+CLOSE_BLOCK_FRAGMENT = 2
+TEXT_FRAGMENT = 3
+
+# Variable tokens
+VAR_TOKEN_START = '{{'
+VAR_TOKEN_END = '}}'
+
+# Code block tokens
+BLOCK_TOKEN_START = '{%'
+BLOCK_TOKEN_END = '%}'
+
+# Token regex
+TOK_REGEX = re.compile(r"(%s.*?%s|%s.*?%s)" % (
+    VAR_TOKEN_START,
+    VAR_TOKEN_END,
+    BLOCK_TOKEN_START,
+    BLOCK_TOKEN_END
+))
