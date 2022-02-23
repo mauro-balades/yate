@@ -39,6 +39,8 @@ from yate.nodes import (
 )
 
 from yate.tokens import (
+    BLOCK_COMMENT_END,
+    BLOCK_COMMENT_START,
     CLOSE_BLOCK_FRAGMENT,
     OPEN_BLOCK_FRAGMENT,
     TEXT_FRAGMENT,
@@ -66,7 +68,6 @@ class YateLexer:
     def tokenize(self):
         root = Root()
         scope_stack = [root]
-
         for fragment in self.each_fragment():
             if not scope_stack:
                 raise TemplateError("nesting issues")
@@ -76,6 +77,7 @@ class YateLexer:
                 parent_scope.exit_scope()
                 scope_stack.pop()
                 continue
+
             new_node = self.create_node(fragment)
             if new_node:
                 parent_scope.children.append(new_node)
@@ -92,7 +94,11 @@ class YateLexer:
     def each_fragment(self):
         for fragment in self.split():
             if fragment:
-                yield Fragment(fragment)
+                if not (
+                    fragment.startswith(BLOCK_COMMENT_START)
+                    and fragment.endswith(BLOCK_COMMENT_END)
+                ):
+                    yield Fragment(fragment)
 
     def create_node(self, fragment):
         node_class = None

@@ -34,6 +34,7 @@ VAR_FRAGMENT = 0
 OPEN_BLOCK_FRAGMENT = 1
 CLOSE_BLOCK_FRAGMENT = 2
 TEXT_FRAGMENT = 3
+COMMENT_FRAGMENT = 4
 
 # Variable tokens
 VAR_TOKEN_START = "{{"
@@ -43,10 +44,21 @@ VAR_TOKEN_END = "}}"
 BLOCK_TOKEN_START = "{%"
 BLOCK_TOKEN_END = "%}"
 
+# Comment block tokens
+BLOCK_COMMENT_START = "{#"
+BLOCK_COMMENT_END = "#}"
+
 # Token regex
 TOK_REGEX = re.compile(
-    r"(%s.*?%s|%s.*?%s)"
-    % (VAR_TOKEN_START, VAR_TOKEN_END, BLOCK_TOKEN_START, BLOCK_TOKEN_END)
+    r"(%s[\S\s]+%s|(%s.*?%s|%s.*?%s))"
+    % (
+        BLOCK_COMMENT_START,
+        BLOCK_COMMENT_END,
+        VAR_TOKEN_START,
+        VAR_TOKEN_END,
+        BLOCK_TOKEN_START,
+        BLOCK_TOKEN_END,
+    )
 )
 
 # White space as a compìled regex object
