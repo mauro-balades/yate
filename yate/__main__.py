@@ -24,6 +24,10 @@
 | SOFTWARE.
 """
 
+from argparse import ArgumentError
+import io
+
+
 class YateTemplate:
     """Yet another template engine. Yate is a small, fast html template engine.
 
@@ -94,4 +98,20 @@ class YateTemplate:
 
     Lastly, so that we can document our templates, comments appear between brace-hashes.
         => `{# This is the best template ever! #}`
+
+    Args:
+        source [str | file]: String or file object ready to be compiled.
     """
+
+    def __init__(self, *args, **kwargs):
+
+        self.source = kwargs.get("source", None)
+
+        if isinstance(self.source, io.IOBase):
+            self.source = self.source.read()
+        elif isinstance(self.source, str):
+            pass # Already declared as a string
+        else:
+            raise ArgumentError("Source is neither a string or a file object.")
+
+        
