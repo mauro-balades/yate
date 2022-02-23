@@ -31,7 +31,7 @@ from setuptools import setup
 with open("yate/__init__.py") as f:
     info = {}
     for line in f.readlines():
-        if line.startswith("version"):
+        if line.startswith("__version__"):
             exec(line, info)
             break
 
