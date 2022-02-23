@@ -24,40 +24,22 @@
 | SOFTWARE.
 """
 
-import operator
-import re
 
-# We will encapsulate each fragment of text in a Fragment object.
-# This object will determine the fragment type and prepare the
-# fragment for consumption by the compile function.
-VAR_FRAGMENT = 0
-OPEN_BLOCK_FRAGMENT = 1
-CLOSE_BLOCK_FRAGMENT = 2
-TEXT_FRAGMENT = 3
+class TemplateError(Exception):
+    pass
 
-# Variable tokens
-VAR_TOKEN_START = "{{"
-VAR_TOKEN_END = "}}"
 
-# Code block tokens
-BLOCK_TOKEN_START = "{%"
-BLOCK_TOKEN_END = "%}"
+class TemplateSyntaxError(TemplateError):
+    def __init__(self, error_syntax):
+        self.error_syntax = error_syntax
 
-# Token regex
-TOK_REGEX = re.compile(
-    r"(%s.*?%s|%s.*?%s)"
-    % (VAR_TOKEN_START, VAR_TOKEN_END, BLOCK_TOKEN_START, BLOCK_TOKEN_END)
-)
+    def __str__(self):
+        return "'%s' seems like invalid syntax" % self.error_syntax
 
-# White space as a compìled regex object
-WHITESPACE = re.compile("\s+")
 
-# Operators
-operator_lookup_table = {
-    "<": operator.lt,
-    ">": operator.gt,
-    "==": operator.eq,
-    "!=": operator.ne,
-    "<=": operator.le,
-    ">=": operator.ge,
-}
+class TemplateContextError(TemplateError):
+    def __init__(self, context_var):
+        self.context_var = context_var
+
+    def __str__(self):
+        return "cannot resolve '%s'" % self.context_var

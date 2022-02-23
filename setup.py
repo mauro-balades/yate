@@ -37,14 +37,13 @@ with open("yate/__init__.py") as f:
 
 setup(
     name="YATE",
-    version=info["version"],
+    version=info["__version__"],
     description="Yet another template engine. Yate is a small, fast html template engine.",
     author="Mauro Balades",
     author_email="mauro.balades@tutanota.com",
     url="https://github.com/mauro-balades/yate",
     packages=["yate"],
-    requirements=[
-    ],
+    requirements=[],
     project_urls={},
     classifiers=[
         "Development Status :: 5 - Production/Stable",

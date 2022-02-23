@@ -24,40 +24,24 @@
 | SOFTWARE.
 """
 
-import operator
-import re
+import ast
+from yate.errors import TemplateContextError
 
-# We will encapsulate each fragment of text in a Fragment object.
-# This object will determine the fragment type and prepare the
-# fragment for consumption by the compile function.
-VAR_FRAGMENT = 0
-OPEN_BLOCK_FRAGMENT = 1
-CLOSE_BLOCK_FRAGMENT = 2
-TEXT_FRAGMENT = 3
 
-# Variable tokens
-VAR_TOKEN_START = "{{"
-VAR_TOKEN_END = "}}"
+def resolve(name, context):
+    if name.startswith(".."):
+        context = context.get("..", {})
+        name = name[2:]
+    try:
+        for tok in name.split("."):
+            context = context[tok]
+        return context
+    except KeyError:
+        raise TemplateContextError(name)
 
-# Code block tokens
-BLOCK_TOKEN_START = "{%"
-BLOCK_TOKEN_END = "%}"
 
-# Token regex
-TOK_REGEX = re.compile(
-    r"(%s.*?%s|%s.*?%s)"
-    % (VAR_TOKEN_START, VAR_TOKEN_END, BLOCK_TOKEN_START, BLOCK_TOKEN_END)
-)
-
-# White space as a compìled regex object
-WHITESPACE = re.compile("\s+")
-
-# Operators
-operator_lookup_table = {
-    "<": operator.lt,
-    ">": operator.gt,
-    "==": operator.eq,
-    "!=": operator.ne,
-    "<=": operator.le,
-    ">=": operator.ge,
-}
+def eval_expression(expr):
+    try:
+        return "literal", ast.literal_eval(expr)
+    except Exception as e:
+        return "name", expr

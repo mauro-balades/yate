@@ -27,6 +27,8 @@
 from argparse import ArgumentError
 import io
 
+from yate.lexer import YateLexer
+
 
 class YateTemplate:
     """Yet another template engine. Yate is a small, fast html template engine.
@@ -103,15 +105,22 @@ class YateTemplate:
         source [str | file]: String or file object ready to be compiled.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, source, *args, **kwargs):
 
-        self.source = kwargs.get("source", None)
+        self.source = source
 
         if isinstance(self.source, io.IOBase):
             self.source = self.source.read()
         elif isinstance(self.source, str):
-            pass # Already declared as a string
+            pass  # Already declared as a string
         else:
-            raise ArgumentError("Source is neither a string or a file object.")
+            raise ArgumentError(
+                'Source is neither a string or a file object, instead it is a "%s".'
+                % type(source)
+            )
 
-        
+        self._lexer: YateLexer = YateLexer(source=self.source)
+
+    def render(self, *args, **kwargs):
+        tree = self._lexer.tokenize()
+        tree.render(kwargs)
