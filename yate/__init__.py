@@ -24,7 +24,7 @@
 | SOFTWARE.
 """
 
-__name__ = "yate"
-__version__ = "1.0.0"
+__name__ = "yate-engine"
+__version__ = "1.0.1"
 
 from yate.__main__ import YateTemplate

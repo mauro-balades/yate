@@ -36,7 +36,7 @@ with open("yate/__init__.py") as f:
             break
 
 setup(
-    name="YATE",
+    name="yate-engine",
     version=info["__version__"],
     description="Yet another template engine. Yate is a small, fast html template engine.",
     author="Mauro Balades",
