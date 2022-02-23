@@ -25,6 +25,6 @@
 """
 
 __name__ = "yate-engine"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 from yate.__main__ import YateTemplate
