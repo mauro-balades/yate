@@ -39,6 +39,7 @@ def resolve(name, context):
     except KeyError:
         raise TemplateContextError(name)
 
+
 def clean_loop(bits):
 
     if bits[0].startswith("[") and bits[0].endswith("]"):
@@ -50,7 +51,7 @@ def clean_loop(bits):
     arr = ""
     for i in bits:
         if i == "as" and arr_open:
-            raise TemplateSyntaxError(''.join(bits))
+            raise TemplateSyntaxError("".join(bits))
         elif i == "as":
             as_exists = True
             break
@@ -68,6 +69,7 @@ def clean_loop(bits):
         return [arr, "as", bits[-1]]
 
     return [arr]
+
 
 def eval_expression(expr):
     try:

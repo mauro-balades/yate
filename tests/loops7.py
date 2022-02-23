@@ -1,7 +1,7 @@
-
 from yate import YateTemplate
 
-template = YateTemplate("""
+template = YateTemplate(
+    """
     <h1>
         {{name}}
     </h1>
@@ -10,9 +10,10 @@ template = YateTemplate("""
             {{it.name}}
         </span>
     {% end %}
-""")
+"""
+)
 
-ctx = {'lines': [{'name': 'l1'}], 'name': 'p1'}
+ctx = {"lines": [{"name": "l1"}], "name": "p1"}
 tmp = template.render(**ctx)
 
 print(tmp)

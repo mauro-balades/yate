@@ -27,7 +27,16 @@
 from argparse import ArgumentError
 import re
 from yate.errors import TemplateError, TemplateSyntaxError
-from yate.nodes import Call, Loop, ElseStatement, Fragment, IfStatement, Root, Text, Variable
+from yate.nodes import (
+    Call,
+    Loop,
+    ElseStatement,
+    Fragment,
+    IfStatement,
+    Root,
+    Text,
+    Variable,
+)
 
 from yate.tokens import (
     CLOSE_BLOCK_FRAGMENT,
@@ -107,7 +116,7 @@ class YateLexer:
 
         if node_class is None:
             raise TemplateSyntaxError(fragment)
-            
+
         return node_class(fragment.clean)
 
     def __str__(self):
