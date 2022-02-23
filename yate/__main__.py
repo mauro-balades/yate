@@ -34,7 +34,7 @@ class YateTemplate:
     """Yet another template engine. Yate is a small, fast html template engine.
 
     In this class, user will be able to access al of yate's functions such as
-    fill the template, minify and many more.
+    fill the template.
 
     The template engine will consist of the classic curly brace style. Since we
     are implementing our engine in Python, some Python concepts will appear in

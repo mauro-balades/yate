@@ -74,5 +74,5 @@ def clean_loop(bits):
 def eval_expression(expr):
     try:
         return "literal", ast.literal_eval(expr)
-    except Exception as e:
+    except Exception:
         return "name", expr

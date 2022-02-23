@@ -25,7 +25,6 @@
 """
 
 from argparse import ArgumentError
-import re
 from yate.errors import TemplateError, TemplateSyntaxError
 from yate.nodes import (
     Call,
