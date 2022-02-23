@@ -17,6 +17,7 @@ jobs:
 
     - run: python3 -m venv venv
     - run: source venv/bin/activate
+    - run: pip3 install -e .
 
     - run: python3 tests/call.py
     - run: python3 tests/loops.py
